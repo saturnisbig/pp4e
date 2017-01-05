@@ -17,6 +17,25 @@ def storeDbase(db, dbfilename=dbfilename):
         fd.write(ENDDB)
 
 
+def loadDbase_2(dbfilename=dbfilename):
+    db = {}
+    with open(dbfilename) as dbfile:
+        import sys
+        sys.stdin = dbfile
+        key = raw_input()
+        while key != ENDDB:
+            rec = raw_input()
+            data = {}
+            while rec != ENDREC:
+                k, v = rec.split(RECSEP)
+                data[k] = eval(v)
+                rec = raw_input()
+            db[key] = data
+            key = raw_input()
+    return db
+
+
+
 def loadDbase(dbfilename=dbfilename):
     db = {}
     key = ''
@@ -62,5 +81,6 @@ if __name__ == "__main__":
     #from initdata import db
     #storeDbase(db)
     #db = loadDbase()
-    db = loadDbase_example()
+    #db = loadDbase_example()
+    db = loadDbase_2()
     print(db)
